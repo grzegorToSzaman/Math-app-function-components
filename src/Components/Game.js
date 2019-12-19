@@ -4,59 +4,35 @@ import Operation from "./Operation";
 import Answer from "./Answer";
 import Score from "./Score";
 
-/*
-function useInterval(width) {
-    setWidth(100);
-    let intervalID = setInterval( () => {
-        if (width > 0) {
-            setWidth(width - 1);
-        } else {
-            clearInterval(intervalID);
-            checkAnswer();
-        }
-    })
-}
-*/
 
 function Game(props) {
     const [score, setScore] = useState(0);
     const [level, setLevel] = useState(1);
     const [answer, setAnswer] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState(0);
-    const [width, setWidth] = useState(0);
     const [a, setA] = useState(0);
     const [b, setB] = useState(0);
     const [bestScores, setBestScores] = useState([]);
 
-    const randomNumber = () => {
-        let c = Math.round(Math.random()*(this.state.level * 10));
-        let d = Math.round(Math.random()*(this.state.level * 10));
-        setA(c);
-        setB(d);
-        setCorrectAnswer(c+d);
-    };
-    let intervalID;
+    useEffect( () => {
+        const randomNumber = () => {
+            let c = Math.round(Math.random()*(level * 10));
+            let d = Math.round(Math.random()*(level * 10));
+            setA(c);
+            setB(d);
+            setCorrectAnswer(c+d);
+        };
+        randomNumber();
 
-    const startInterval = () => {
-        setWidth(100);
-        intervalID = setInterval( () => {
-            if (width > 0) {
-                setWidth(width - 1);
-            } else {
-                clearInterval(intervalID);
-                checkAnswer();
-            }
-        })
-    };
+        score !== 0 && setLevel(Math.ceil(score / 5))
+
+    }, [score, level]);
 
     const checkAnswer = () => {
-        if (answer == correctAnswer) {
-            clearInterval(intervalID);
+        if (parseInt(answer) === correctAnswer) {
+            // clearInterval(intervalID);
             setScore(score + 1);
             setAnswer('');
-            setLevel(Math.ceil(score / 5));
-            randomNumber();
-            startInterval();
         } else {
             props.score(score);
             props.gameover();
@@ -106,10 +82,6 @@ function Game(props) {
     };
 
     useEffect( () => {
-        randomNumber();
-        startInterval();
-    });
-    useEffect( () => {
         const apiURL = 'http://localhost:3010/bestScores/';
         fetch(apiURL)
             .then(r => r.json())
@@ -119,11 +91,11 @@ function Game(props) {
             .catch(err => {
                 console.warn(err);
             })
-    }, [bestScores]);
+    }, []);
 
     return (
         <div className='game'>
-            <ProgressBar width={width}/>
+            <ProgressBar score={score} checkAnswer={checkAnswer}/>
             <Operation a={a} b={b}/>
             <Answer answer={setAnswer} zeroInput={answer} enter={checkAnswer}/>
             <Score score={score} level={level}/>
