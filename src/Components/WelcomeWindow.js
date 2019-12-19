@@ -9,7 +9,9 @@ function WelcomeWindow(props) {
     useEffect( () => {
         input.current.focus();
         document.addEventListener('keydown', keyDown);
-        return document.removeEventListener('keydown', keyDown);
+        return () => {
+            document.removeEventListener('keydown', keyDown);
+        }
     });
     return (
         <div className='welcome'>
