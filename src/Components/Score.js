@@ -1,5 +1,5 @@
 import React from "react";
-import Fade from "react-reveal";
+import Fade from "react-reveal/Fade";
 
 function Score({score, level}) {
     return (
@@ -12,5 +12,5 @@ function Score({score, level}) {
     )
 }
 
-export default Score
+export default Score;
 

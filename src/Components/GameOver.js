@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
 import HighScores from "./HighScores";
-import Flash from "react-reveal";
-import Jump from "react-reveal";
-import Pulse from "react-reveal";
+import Flash from "react-reveal/Flash";
+import Jump from "react-reveal/Jump";
+import Pulse from "react-reveal/Pulse";
 
 
 function GameOver(props) {
